@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeStore | Tienda Online</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <h1 class="logo">FakeStore</h1>
+
+        <button class="cart-button">
+            🛒 <span>Carrito</span>
+            <span id="cart-count">0</span>
+        </button>
+    </header>
+
+
+    <!-- CONTROLES -->
+    <section class="controls">
+
+        <!-- BUSCADOR -->
+        <input 
+            type="text" 
+            id="search-input"
+            placeholder="Buscar productos..."
+        >
+
+        <!-- FILTRO CATEGORÍA -->
+        <select id="category-filter">
+            <option value="all">Todas las categorías</option>
+            <!-- categorías dinámicas -->
+        </select>
+
+        <!-- ORDENAMIENTO -->
+        <select id="sort-filter">
+            <option value="default">Ordenar por</option>
+            <option value="price-asc">Precio: menor a mayor</option>
+            <option value="price-desc">Precio: mayor a menor</option>
+            <option value="name-asc">Nombre A-Z</option>
+            <option value="name-desc">Nombre Z-A</option>
+        </select>
+
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+
+        <!-- PRODUCTOS -->
+        <section id="products-container" class="products">
+            <!-- Productos renderizados dinámicamente -->
+        </section>
+
+        <!-- CARRITO -->
+        <aside id="cart" class="cart">
+            <h2>Carrito</h2>
+
+            <div id="cart-items">
+                <!-- Items del carrito -->
+            </div>
+
+            <div class="cart-summary">
+                <p>Total:</p>
+                <span id="cart-total">$0.00</span>
+            </div>
+
+            <button class="checkout-btn">
+                Finalizar compra
+            </button>
+        </aside>
+
+    </main>
+
+    <!-- JS -->
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .controls {
+        flex-direction: column;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+
+    .cart {
+        order: -1;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .products {
+        grid-template-columns: 1fr;
+    }
+}
