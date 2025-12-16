@@ -1,9 +1,12 @@
 import { fetchProducts } from './api.js';
 import { renderProducts } from './products.js';
+import { renderCart } from './cartView.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         console.log('Aplicación iniciada');
+
+        renderCart(); // ← aquí, DOM ya cargado
 
         const products = await fetchProducts();
 
