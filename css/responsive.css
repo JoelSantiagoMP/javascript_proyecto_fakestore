@@ -1,32 +1,133 @@
 @media (max-width: 1024px) {
-    .main-content {
-        grid-template-columns: 2fr 1fr;
+    .products {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
 }
 
 @media (max-width: 768px) {
+    .header {
+        padding: 1rem;
+    }
 
     .controls {
+        padding: 1rem;
+    }
+
+    .filters-container {
         flex-direction: column;
+        align-items: stretch;
+    }
+
+    .controls input,
+    .controls select {
+        width: 100%;
+    }
+
+    .filter-buttons {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .apply-btn,
+    .reset-btn {
+        flex: 1;
     }
 
     .main-content {
-        grid-template-columns: 1fr;
+        padding: 1rem;
     }
 
     .cart {
-        order: -1;
+        width: 90%;
+        max-width: 380px;
+    }
+
+    .products {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 1rem;
+    }
+
+    .product-card {
+        padding: 0.75rem;
+    }
+
+    .product-image-container {
+        height: 150px;
     }
 }
 
 @media (max-width: 480px) {
-
     .header {
-        flex-direction: column;
-        gap: 0.5rem;
+        padding: 0.75rem;
+    }
+
+    .logo {
+        font-size: 1.3rem;
+    }
+
+    .cart-button {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .cart-button span:first-of-type {
+        font-size: 1rem;
+    }
+
+    .controls {
+        padding: 0.75rem;
+    }
+
+    .main-content {
+        padding: 0.75rem;
     }
 
     .products {
         grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .product-card {
+        padding: 0.75rem;
+    }
+
+    .product-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .add-to-cart-btn {
+        width: 100%;
+    }
+
+    .cart {
+        width: 100%;
+        max-width: 100%;
+        right: -100%;
+    }
+
+    .cart-header {
+        padding: 1rem;
+    }
+
+    .cart-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .cart-item {
+        flex-wrap: wrap;
+    }
+
+    .cart-item-details {
+        min-width: calc(100% - 80px);
+    }
+
+    .filter-buttons {
+        flex-direction: column;
+    }
+
+    .apply-btn,
+    .reset-btn {
+        width: 100%;
     }
 }

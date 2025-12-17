@@ -1,5 +1,7 @@
 // cart.js
 
+import { saveToStorage, getFromStorage } from './storage.js';
+
 // =======================
 // ESTADO DEL CARRITO
 // =======================
@@ -71,10 +73,9 @@ export function getTotalPrice() {
 // =======================
 
 function saveCartToStorage() {
-    localStorage.setItem('cart', JSON.stringify(cart));
+    saveToStorage('cart', cart);
 }
 
 function loadCartFromStorage() {
-    const storedCart = localStorage.getItem('cart');
-    return storedCart ? JSON.parse(storedCart) : {};
+    return getFromStorage('cart', {});
 }

@@ -16,55 +16,73 @@
         <h1 class="logo">FakeStore</h1>
 
         <button class="cart-button">
-            🛒 <span>Carrito</span>
+            <span class="cart-icon">🛒</span>
+            <span>Carrito</span>
             <span id="cart-count">0</span>
         </button>
     </header>
 
 
-    <!-- CONTROLES -->
+    <!-- CONTROLES DE FILTROS -->
     <section class="controls">
+        <div class="filters-container">
+            <!-- BUSCADOR -->
+            <input 
+                type="text" 
+                id="search-input"
+                placeholder="Buscar productos..."
+            >
 
-        <!-- BUSCADOR -->
-        <input 
-            type="text" 
-            id="search-input"
-            placeholder="Buscar productos..."
-        >
+            <!-- FILTRO CATEGORÍA -->
+            <select id="category-filter">
+                <option value="all">Todas las categorías</option>
+                <!-- categorías dinámicas -->
+            </select>
 
-        <!-- FILTRO CATEGORÍA -->
-        <select id="category-filter">
-            <option value="all">Todas las categorías</option>
-            <!-- categorías dinámicas -->
-        </select>
+            <!-- ORDENAMIENTO -->
+            <select id="sort-filter">
+                <option value="default">Ordenar por</option>
+                <option value="price-asc">Precio: menor a mayor</option>
+                <option value="price-desc">Precio: mayor a menor</option>
+                <option value="name-asc">Nombre A-Z</option>
+                <option value="name-desc">Nombre Z-A</option>
+            </select>
 
-        <!-- ORDENAMIENTO -->
-        <select id="sort-filter">
-            <option value="default">Ordenar por</option>
-            <option value="price-asc">Precio: menor a mayor</option>
-            <option value="price-desc">Precio: mayor a menor</option>
-            <option value="name-asc">Nombre A-Z</option>
-            <option value="name-desc">Nombre Z-A</option>
-        </select>
-
+            <!-- BOTONES DE ACCIÓN -->
+            <div class="filter-buttons">
+                <button id="apply-filters-btn" class="apply-btn">
+                    Aplicar Filtros
+                </button>
+                <button id="reset-filters-btn" class="reset-btn">
+                    Reiniciar
+                </button>
+            </div>
+        </div>
     </section>
 
     <!-- CONTENIDO PRINCIPAL -->
     <main class="main-content">
-
         <!-- PRODUCTOS -->
         <section id="products-container" class="products">
             <!-- Productos renderizados dinámicamente -->
         </section>
+    </main>
 
-        <!-- CARRITO -->
-        <aside id="cart" class="cart">
-            <h2>Carrito</h2>
+    <!-- OVERLAY PARA CARRITO -->
+    <div id="cart-overlay" class="cart-overlay"></div>
 
-            <div id="cart-items">
-                <!-- Items del carrito -->
-            </div>
+    <!-- CARRITO MODAL -->
+    <aside id="cart" class="cart">
+        <div class="cart-header">
+            <h2>Carrito de Compras</h2>
+            <button id="close-cart-btn" class="close-cart-btn" aria-label="Cerrar carrito">✕</button>
+        </div>
 
+        <div id="cart-items" class="cart-items-container">
+            <!-- Items del carrito -->
+        </div>
+
+        <div class="cart-footer">
             <div class="cart-summary">
                 <p>Total:</p>
                 <span id="cart-total">$0.00</span>
@@ -73,9 +91,8 @@
             <button class="checkout-btn">
                 Finalizar compra
             </button>
-        </aside>
-
-    </main>
+        </div>
+    </aside>
 
     <!-- JS -->
     <script type="module" src="./js/main.js"></script>
