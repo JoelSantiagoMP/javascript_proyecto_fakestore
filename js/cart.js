@@ -28,7 +28,6 @@ export function addToCart(product) {
     }
 
     saveCartToStorage();
-    console.log(getCartItems());
 }
 
 export function removeFromCart(productId) {

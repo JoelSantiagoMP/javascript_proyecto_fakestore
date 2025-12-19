@@ -1,40 +1,39 @@
-# Wireframes y Bocetos
+# Wireframes y Bocetos del Proyecto
 
-Esta carpeta contiene los wireframes y bocetos del diseño de la aplicación.
+Esta carpeta contiene la documentación visual del diseño de la aplicación FakeStore.
 
-## Estructura de Wireframes
+## Archivos Incluidos
 
-### Vista de Escritorio
-- Layout principal con productos y carrito lateral
-- Header con logo y botón de carrito
-- Controles de filtrado en la parte superior
+- **wireframes.md**: Wireframes detallados en formato texto/ASCII art que muestran:
+  - Estructura HTML completa
+  - Vista Desktop
+  - Vista Móvil
+  - Carrito Modal
+  - Componentes individuales
+  - Flujos de interacción
 
-### Vista Móvil
-- Layout de una columna para productos
-- Carrito como modal lateral deslizable
-- Controles apilados verticalmente
+## Cómo Usar Estos Wireframes
 
-### Componentes
-- Tarjeta de producto
-- Item del carrito
-- Controles de filtrado
+Los wireframes están diseñados en formato texto para facilitar su lectura y comprensión. Muestran:
+
+1. **Estructura visual** de cada pantalla
+2. **Componentes** y su disposición
+3. **Flujos de interacción** del usuario
+4. **Breakpoints responsive** y adaptaciones
 
 ## Notas
 
-Los wireframes pueden ser creados usando herramientas como:
-- Figma
-- Canva
-- Excalidraw
-- Dibujos a mano escaneados
+- Los wireframes reflejan el diseño final implementado
+- El carrito es un modal desplegable en todas las pantallas
+- Los filtros se aplican mediante botones explícitos
+- El diseño prioriza mostrar el máximo de productos posibles
 
-## Ejemplo de Estructura
+## Herramientas Alternativas
 
-```
-wireframes/
-├── desktop-layout.png
-├── mobile-layout.png
-├── product-card.png
-├── cart-modal.png
-└── filters-section.png
-```
+Si deseas crear wireframes visuales, puedes usar:
+- **Figma**: Para wireframes interactivos
+- **Canva**: Para diseños rápidos
+- **Excalidraw**: Para bocetos a mano alzada digitales
+- **Dibujos a mano**: Escaneados y guardados aquí
 
+Los wireframes en texto proporcionan suficiente detalle para entender la estructura y pueden complementarse con imágenes visuales si se desea.

@@ -4,13 +4,14 @@
 
 ### 1.1 Layout General
 
-**Decisión**: Layout de dos columnas en escritorio (productos 3/4, carrito 1/4), una columna en móvil.
+**Decisión**: Layout de una columna completa para productos en todas las pantallas, carrito como modal desplegable.
 
 **Justificación**:
-- En escritorio, permite ver productos y carrito simultáneamente sin cambiar de vista
-- El carrito sticky mantiene visibilidad constante del total
-- En móvil, el carrito como modal lateral evita ocupar espacio valioso de la pantalla
-- Prioriza la visualización de productos, que es la acción principal del usuario
+- **Máximo espacio para productos**: Al no tener el carrito permanentemente visible, se maximiza el espacio para mostrar más productos
+- **Carrito modal**: Se despliega desde la derecha cuando el usuario lo necesita, no ocupa espacio permanente
+- **Mejor experiencia móvil**: El modal es más intuitivo en dispositivos táctiles
+- **Prioriza productos**: La acción principal (ver productos) tiene todo el espacio disponible
+- **Grid más amplio**: Permite mostrar más columnas de productos (4-5 en desktop vs 3 anteriormente)
 
 ### 1.2 Sistema de Tarjetas de Productos
 
@@ -25,24 +26,27 @@
 
 ### 1.3 Carrito de Compras
 
-**Decisión**: Carrito lateral sticky en escritorio, modal deslizable en móvil.
+**Decisión**: Carrito como modal desplegable desde la derecha en todas las pantallas.
 
 **Justificación**:
-- **Escritorio**: Sticky mantiene el carrito visible sin scroll, facilitando consultas rápidas
-- **Móvil**: Modal lateral desde la derecha es un patrón familiar (similar a apps de e-commerce)
-- El overlay oscuro en móvil enfoca la atención en el carrito
-- Botón flotante en header siempre accesible
-- Contador visual en el botón indica cantidad sin abrir el carrito
+- **Modal consistente**: Misma experiencia en desktop y móvil
+- **Overlay oscuro**: Enfoca la atención en el carrito cuando está abierto
+- **Botón en header**: Siempre accesible con contador visual de items
+- **Apertura automática**: Se abre automáticamente al agregar un producto
+- **Múltiples formas de cerrar**: Botón X, click en overlay, tecla ESC
+- **Maximiza espacio**: No ocupa espacio permanente, permitiendo más productos visibles
 
 ### 1.4 Controles de Filtrado
 
-**Decisión**: Barra de búsqueda, selector de categoría y selector de ordenamiento en la misma fila.
+**Decisión**: Barra de búsqueda, selector de categoría, selector de ordenamiento y botones de acción (Aplicar/Reiniciar) en la misma fila.
 
 **Justificación**:
-- Agrupación lógica: todos los controles de filtrado juntos
-- Búsqueda con más espacio (flex: 2) por ser el control más usado
-- Selectores con ancho mínimo para legibilidad
-- En móvil se apilan verticalmente para mejor usabilidad táctil
+- **Control explícito**: Los filtros se aplican con botón "Aplicar Filtros", dando control al usuario
+- **Botón de reinicio**: Permite limpiar todos los filtros fácilmente
+- **Agrupación lógica**: Todos los controles de filtrado juntos
+- **Búsqueda con más espacio**: Flex: 2 para el input de búsqueda
+- **Enter para aplicar**: Se puede aplicar filtros presionando Enter en el campo de búsqueda
+- **En móvil**: Se apilan verticalmente para mejor usabilidad táctil
 
 ### 1.5 Feedback Visual
 
@@ -103,10 +107,12 @@
 
 ### 3.1 Búsqueda por Texto
 
-**Decisión**: Búsqueda en tiempo real (evento `input`) en título y descripción.
+**Decisión**: Búsqueda con botón "Aplicar Filtros" (evento `click`) o Enter (evento `keypress`) en título y descripción.
 
 **Justificación**:
-- **Tiempo real**: Feedback inmediato, no requiere botón "Buscar"
+- **Control del usuario**: El usuario decide cuándo aplicar los filtros
+- **Mejor performance**: No se ejecuta en cada tecla, solo cuando se solicita
+- **Enter para rapidez**: Se puede aplicar presionando Enter
 - **Título y descripción**: Cubre más casos de uso (ej: buscar "smartphone" encuentra productos de electrónica)
 - **Case insensitive**: Mejor experiencia (no distingue mayúsculas/minúsculas)
 - **Trim**: Ignora espacios al inicio/final
@@ -159,15 +165,16 @@
 
 ### 5.1 Breakpoints
 
-- **Desktop**: > 1024px (grid 3fr 1fr)
-- **Tablet**: 768px - 1024px (grid 2fr 1fr)
-- **Móvil**: < 768px (grid 1fr, carrito modal)
-- **Móvil pequeño**: < 480px (ajustes adicionales)
+- **Desktop**: > 1024px (grid 4-5 columnas de productos)
+- **Tablet**: 768px - 1024px (grid 2-3 columnas de productos)
+- **Móvil**: < 768px (grid 1 columna, carrito modal)
+- **Móvil pequeño**: < 480px (ajustes adicionales, botones full-width)
 
 **Justificación**:
 - Breakpoints estándar basados en dispositivos comunes
 - Transiciones suaves entre breakpoints
-- Carrito modal en móvil optimiza espacio
+- Carrito modal en todas las pantallas optimiza espacio
+- Más columnas en desktop al no tener carrito permanente
 
 ### 5.2 Adaptaciones Móviles
 

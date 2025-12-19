@@ -35,10 +35,12 @@ Esta aplicación web permite a los usuarios:
 - Contador de items en el header
 
 ✅ **Filtros y Búsqueda**
-- Búsqueda por nombre o descripción (evento `input`)
-- Filtro por categoría (evento `change`)
+- Búsqueda por nombre o descripción con botón "Aplicar Filtros"
+- Filtro por categoría dinámico
 - Ordenamiento por precio (ascendente/descendente)
 - Ordenamiento por nombre (A-Z / Z-A)
+- Botón "Reiniciar" para limpiar todos los filtros
+- Enter para aplicar filtros rápidamente
 
 ✅ **Persistencia con localStorage**
 - Guardado automático del carrito
