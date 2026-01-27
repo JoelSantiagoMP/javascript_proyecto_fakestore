@@ -1,5 +1,5 @@
 import { fetchProducts } from './api.js';
-import { renderProducts } from './products.js';
+import { setupPagination } from './products.js';
 import { renderCart, updateCartCount } from './cartView.js';
 import { 
     initializeFilters, 
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         initializeFilters(products);
 
         // Renderizar productos iniciales
-        renderProducts(products);
+        setupPagination(allProducts);
 
         // Configurar event listeners
         setupEventListeners();
@@ -159,7 +159,7 @@ function applyFiltersAndRender(searchTerm = '', category = null, sortType = null
     }
     
     const filtered = applyAllFilters(searchTerm, category, sortType);
-    renderProducts(filtered);
+    setupPagination(filtered);
 }
 
 // Importar funciones necesarias
