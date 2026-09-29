@@ -4,15 +4,17 @@
 
 ### 1. Consumo de API
 - ✅ Obtiene datos desde `https://fakestoreapi.com/products`
-- ✅ Usa `fetch()` con `async/await`
-- ✅ Manejo de errores con try/catch
+- ✅ Si FakeStore falla, reintenta y usa un catálogo alternativo con el mismo formato
+- ✅ Usa `fetch()` con `async/await` y un tiempo máximo de espera
+- ✅ Estados de carga, error y reintento
 - ✅ Archivo: `js/api.js`
 
 ### 2. DOM Dinámico
 - ✅ Renderiza productos dinámicamente con `createElement()`
 - ✅ Muestra: imagen, título, precio, categoría, descripción
 - ✅ Botón "Agregar al carrito" en cada producto
-- ✅ Actualiza DOM al aplicar filtros
+- ✅ Actualiza DOM al aplicar filtros y vuelve a la página 1
+- ✅ Paginación alineada con las columnas visibles
 - ✅ Archivo: `js/products.js`
 
 ### 3. Carrito de Compras
@@ -26,8 +28,8 @@
 
 ### 4. Eventos
 - ✅ `click`: Agregar/quitar productos, botones de filtros, carrito
-- ✅ `change`: Modificar cantidad en carrito
-- ✅ `input`/`keypress`: Búsqueda (con Enter para aplicar)
+- ✅ `click`: Cambiar cantidad con botones − y +
+- ✅ `keydown`: Enter en el buscador aplica los filtros
 - ✅ Archivo: `js/main.js`
 
 ### 5. Persistencia localStorage
@@ -40,7 +42,7 @@
 - ✅ Separado en archivos (HTML, CSS, JS)
 - ✅ Código modularizado en funciones
 - ✅ Estructura clara y mantenible
-- ✅ 7 módulos JavaScript bien organizados
+- ✅ 8 módulos JavaScript, incluido `js/icons.js` para los iconos SVG
 
 ### 7. Diseño Responsivo y Usabilidad
 - ✅ Adapta a escritorio, tablet y móvil
@@ -86,6 +88,7 @@ javascript_proyecto_fakestore/
 │   ├── cart.js               ✅ Lógica del carrito
 │   ├── cartView.js           ✅ Vista del carrito
 │   ├── filters.js            ✅ Filtros y ordenamiento
+│   ├── icons.js              ✅ Iconos SVG
 │   └── storage.js            ✅ Utilidades localStorage
 │
 └── diseño/
@@ -104,6 +107,9 @@ javascript_proyecto_fakestore/
 - ✅ Contador de items en tiempo real
 - ✅ Cierre del carrito con ESC, overlay o botón X
 - ✅ Enter para aplicar filtros rápidamente
+- ✅ Paginación y catálogo alternativo si la API principal no responde
+- ✅ Aviso flotante al confirmar la compra, sin `alert()`
+- ✅ Iconos SVG y animación de entrada de las tarjetas
 
 ## 🔍 Verificación de Código
 

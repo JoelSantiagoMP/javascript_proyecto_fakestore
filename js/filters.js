@@ -1,7 +1,52 @@
 // filters.js
 
+const CATEGORY_LABELS = {
+    electronics: "Electrónica",
+    jewelery: "Joyería",
+    jewelry: "Joyería",
+    "men's clothing": "Ropa de hombre",
+    "women's clothing": "Ropa de mujer",
+    beauty: "Belleza",
+    fragrances: "Fragancias",
+    furniture: "Muebles",
+    groceries: "Supermercado",
+    "home-decoration": "Decoración",
+    "kitchen-accessories": "Cocina",
+    laptops: "Portátiles",
+    "mens-shirts": "Camisas de hombre",
+    "mens-shoes": "Zapatos de hombre",
+    "mens-watches": "Relojes de hombre",
+    "mobile-accessories": "Accesorios móvil",
+    motorcycle: "Motos",
+    "skin-care": "Cuidado de la piel",
+    smartphones: "Smartphones",
+    "sports-accessories": "Deporte",
+    sunglasses: "Gafas de sol",
+    tablets: "Tablets",
+    tops: "Blusas",
+    vehicle: "Vehículos",
+    "womens-bags": "Bolsos",
+    "womens-dresses": "Vestidos",
+    "womens-jewellery": "Joyería de mujer",
+    "womens-shoes": "Zapatos de mujer",
+    "womens-watches": "Relojes de mujer"
+};
+
 let allProducts = [];
 let filteredProducts = [];
+
+export function formatCategory(category) {
+    if (!category) return "Sin categoría";
+
+    const key = String(category).trim().toLowerCase();
+    if (CATEGORY_LABELS[key]) return CATEGORY_LABELS[key];
+
+    return key
+        .split(/[\s-]+/)
+        .filter(Boolean)
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+}
 
 // =======================
 // FILTROS Y ORDENAMIENTO
@@ -22,28 +67,25 @@ function getUniqueCategories() {
             categories.add(product.category);
         }
     });
-    return Array.from(categories).sort();
+    return Array.from(categories).sort((a, b) =>
+        formatCategory(a).localeCompare(formatCategory(b), "es")
+    );
 }
 
 // Llenar el select de categorías
 function populateCategories() {
-    const categoryFilter = document.getElementById('category-filter');
+    const categoryFilter = document.getElementById("category-filter");
+    if (!categoryFilter) return;
+
     const categories = getUniqueCategories();
-    
-    // Limpiar opciones existentes (excepto "Todas")
     categoryFilter.innerHTML = '<option value="all">Todas las categorías</option>';
-    
-    categories.forEach(category => {
-        const option = document.createElement('option');
+
+    categories.forEach((category) => {
+        const option = document.createElement("option");
         option.value = category;
-        option.textContent = capitalizeFirst(category);
+        option.textContent = formatCategory(category);
         categoryFilter.appendChild(option);
     });
-}
-
-// Capitalizar primera letra
-function capitalizeFirst(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 // Filtrar por búsqueda (nombre o descripción)

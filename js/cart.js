@@ -36,15 +36,21 @@ export function removeFromCart(productId) {
 }
 
 export function updateQuantity(productId, quantity) {
-    if (cart[productId]) {
-        cart[productId].quantity = quantity;
+    if (!cart[productId]) return;
 
-        if (cart[productId].quantity <= 0) {
-            delete cart[productId];
-        }
-
-        saveCartToStorage();
+    const next = Math.floor(Number(quantity));
+    if (!Number.isFinite(next) || next <= 0) {
+        delete cart[productId];
+    } else {
+        cart[productId].quantity = Math.min(next, 99);
     }
+
+    saveCartToStorage();
+}
+
+export function clearCart() {
+    cart = {};
+    saveCartToStorage();
 }
 
 // =======================

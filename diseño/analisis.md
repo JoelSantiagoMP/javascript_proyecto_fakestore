@@ -15,14 +15,15 @@
 
 ### 1.2 Sistema de Tarjetas de Productos
 
-**Decisión**: Tarjetas con imagen, categoría, título, descripción truncada, precio y botón de acción.
+**Decisión**: Tarjetas con imagen, categoría, título, valoración, descripción, precio y botón con icono.
 
 **Justificación**:
 - Las tarjetas proporcionan un formato visual claro y organizado
-- La descripción truncada evita sobrecargar visualmente pero da contexto
-- El precio destacado ayuda en la toma de decisiones rápidas
-- El hover effect (elevación) proporciona feedback visual inmediato
-- Grid responsive se adapta automáticamente al espacio disponible
+- La descripción se recorta con CSS (`line-clamp`) para no cortar el texto en JavaScript
+- La valoración usa el campo `rating` de la API cuando existe
+- El precio y el botón se apilan solos si la tarjeta mide menos de 300px
+- El hover eleva la tarjeta sin cambiar el grosor del borde, para que el layout no salte
+- Las tarjetas entran con una animación corta y respetan `prefers-reduced-motion`
 
 ### 1.3 Carrito de Compras
 
@@ -38,7 +39,7 @@
 
 ### 1.4 Controles de Filtrado
 
-**Decisión**: Barra de búsqueda, selector de categoría, selector de ordenamiento y botones de acción (Aplicar/Reiniciar) en la misma fila.
+**Decisión**: Buscador con icono, categoría, ordenamiento y botones Aplicar/Reiniciar. En escritorio van en una fila; en pantallas menores a 1024px el buscador ocupa todo el ancho y el resto se reparte.
 
 **Justificación**:
 - **Control explícito**: Los filtros se aplican con botón "Aplicar Filtros", dando control al usuario
@@ -50,13 +51,24 @@
 
 ### 1.5 Feedback Visual
 
-**Decisión**: Animaciones sutiles, cambios de estado en botones, mensajes de confirmación.
+**Decisión**: Iconos SVG, animaciones cortas y mensajes dentro de la página.
 
 **Justificación**:
-- El botón "Agregar al carrito" cambia a "✓ Agregado" temporalmente
-- Transiciones suaves (0.2s-0.3s) no distraen pero dan feedback
-- Hover effects indican elementos interactivos
-- El contador del carrito aparece/desaparece según necesidad
+- Los iconos sustituyen emojis para que se vean iguales en todos los sistemas
+- El botón "Agregar al carrito" pasa a "Agregado" con un check, sin borrar el botón
+- El contador del carrito rebota solo cuando el número cambia
+- La compra se confirma en el panel y el resultado aparece en un aviso, no en `alert()`
+- `prefers-reduced-motion` desactiva las animaciones
+
+### 1.6 Paginación y fallo de la API
+
+**Decisión**: Paginar según las columnas reales y no tratar un fallo de red como un catálogo vacío.
+
+**Justificación**:
+- `--card-min` (240px) define la cuadrícula. JavaScript lee ese valor y el hueco para pedir filas completas
+- Aplicar filtros u ordenar vuelve a la página 1. Cambiar el tamaño de la ventana conserva la página si sigue existiendo
+- FakeStore se consulta dos veces. Si sigue sin responder, se adapta DummyJSON al mismo formato y se muestra un aviso con Reintentar
+- Si tampoco hay catálogo alternativo, el estado de error explica el problema y ofrece el mismo botón
 
 ## 2. Estructura de Datos
 
@@ -107,7 +119,7 @@
 
 ### 3.1 Búsqueda por Texto
 
-**Decisión**: Búsqueda con botón "Aplicar Filtros" (evento `click`) o Enter (evento `keypress`) en título y descripción.
+**Decisión**: Búsqueda con botón "Aplicar filtros" (evento `click`) o Enter (evento `keydown`) en título y descripción.
 
 **Justificación**:
 - **Control del usuario**: El usuario decide cuándo aplicar los filtros
@@ -123,7 +135,7 @@
 
 **Justificación**:
 - **Dinámico**: Se adapta automáticamente si la API agrega nuevas categorías
-- **Capitalización**: Mejora legibilidad (ej: "electronics" → "Electronics")
+- **Etiquetas en español**: Las categorías conocidas se traducen (`electronics` → Electrónica, `men's clothing` → Ropa de hombre). El resto se muestra con mayúscula inicial
 - **Opción "Todas"**: Permite resetear el filtro fácilmente
 - **Familiar**: Patrón estándar en e-commerce
 
@@ -140,41 +152,40 @@
 - **Por defecto**: Mantiene orden original de la API (sin ordenamiento)
 
 **Criterios no implementados (y por qué)**:
-- **Popularidad/Rating**: La API no siempre tiene datos consistentes
+- **Ordenar por valoración**: La valoración sí se muestra en la tarjeta, pero no todas las fuentes traen el mismo conteo de reseñas
 - **Fecha**: No es relevante para productos estáticos
-- **Stock**: La API no proporciona información de inventario
+- **Stock**: FakeStore no informa inventario de forma uniforme
 
 ## 4. Consideraciones de Accesibilidad
 
 ### 4.1 Implementado
 
-- **Atributos ARIA**: `aria-label` en botones de acción
+- **Atributos ARIA**: `aria-label` en botones, `aria-current` en la página activa y `aria-live` en resultados y avisos
 - **Contraste**: Colores con suficiente contraste (WCAG AA)
-- **Navegación por teclado**: Todos los elementos interactivos son accesibles
-- **Semántica HTML**: Uso de `<article>`, `<section>`, `<header>`, `<aside>`
-- **Alt text**: Imágenes con atributo `alt` descriptivo
+- **Navegación por teclado**: Elementos nativos de botón, enlace y formulario, con `:focus-visible`
+- **Carrito cerrado**: El panel usa `inert` para no recibir foco mientras está fuera de pantalla
+- **Semántica HTML**: `<header>`, `<main>`, `<footer>`, `<article>`, `<nav>` y `<aside>`
+- **Alt text**: Imágenes con atributo `alt` descriptivo. Los iconos decorativos van con `aria-hidden`
 
 ### 4.2 Mejoras Futuras
 
-- Agregar `role` y `aria-live` para anuncios de cambios dinámicos
-- Mejorar focus visible en navegación por teclado
-- Agregar skip links para navegación rápida
+- Agregar un enlace para saltar al listado
 - Implementar modo de alto contraste
+- Añadir una vista de detalle de producto
 
 ## 5. Responsive Design
 
 ### 5.1 Breakpoints
 
-- **Desktop**: > 1024px (grid 4-5 columnas de productos)
-- **Tablet**: 768px - 1024px (grid 2-3 columnas de productos)
-- **Móvil**: < 768px (grid 1 columna, carrito modal)
-- **Móvil pequeño**: < 480px (ajustes adicionales, botones full-width)
+- **Escritorio**: filtros en una sola fila. Las columnas de productos salen del ancho real, con tarjeta mínima de 240px
+- **Hasta 1024px**: el buscador ocupa todo el ancho; categoría y orden, y los dos botones, van en pares
+- **Hasta 560px**: filtros, botones y acciones de compra en una columna. El carrito ocupa el 100% del ancho
+- **Hasta 400px**: se oculta la palabra "Carrito" y queda el icono con el contador. El botón sigue teniendo nombre accesible
 
 **Justificación**:
-- Breakpoints estándar basados en dispositivos comunes
-- Transiciones suaves entre breakpoints
-- Carrito modal en todas las pantallas optimiza espacio
-- Más columnas en desktop al no tener carrito permanente
+- No se fuerzan 4 columnas en un ancho que deja las tarjetas ilegibles
+- La paginación usa la misma cuenta de columnas, así cada página llena filas enteras
+- El carrito es un panel lateral en todos los tamaños y solo cambia su ancho
 
 ### 5.2 Adaptaciones Móviles
 
@@ -195,18 +206,20 @@
 
 ### 6.2 Consideraciones
 
-- La API se llama una sola vez al inicio
+- La API se llama al inicio y otra vez si el usuario pulsa Reintentar
 - Los filtros se aplican sobre datos en memoria
-- El carrito se actualiza incrementalmente (no se re-renderiza todo)
+- El listado del carrito se vuelve a pintar completo al cambiar una cantidad. Con pocos productos el coste es bajo y evita estados a medias
+- Al cambiar el tamaño de la ventana, la paginación solo se recalcula si cambia el número de productos por página
 
 ## 7. Manejo de Errores
 
 ### 7.1 Implementado
 
-- **API errors**: Try/catch con mensajes al usuario
-- **Validación de datos**: Verificación de arrays antes de renderizar
+- **API errors**: Reintento, catálogo alternativo y, si ambos fallan, mensaje con botón Reintentar
+- **Validación de datos**: Se descartan productos sin título o sin precio numérico
 - **LocalStorage errors**: Try/catch en funciones de storage
-- **Validación de cantidad**: Input numérico con mínimo 1
+- **Validación de cantidad**: Los botones − y + mantienen la cantidad entre 1 y 99. En 1, el botón − quita el producto
+- **Textos dinámicos**: Títulos y descripciones se escapan antes de insertarlos en HTML
 
 ### 7.2 Mensajes de Usuario
 
@@ -218,8 +231,9 @@
 
 ### 8.1 Separación de Responsabilidades
 
-- **api.js**: Solo comunicación con API
-- **products.js**: Solo renderizado de productos
+- **api.js**: Comunicación con FakeStore y adaptación del catálogo alternativo
+- **icons.js**: Iconos SVG compartidos por las vistas
+- **products.js**: Renderizado de productos y paginación
 - **cart.js**: Solo lógica de negocio del carrito
 - **cartView.js**: Solo renderizado del carrito
 - **filters.js**: Solo lógica de filtrado

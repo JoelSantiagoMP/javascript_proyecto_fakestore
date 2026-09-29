@@ -4,43 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FakeStore | Tienda Online</title>
-
-    <!-- CSS -->
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/responsive.css">
 </head>
 <body>
-
-    <!-- HEADER -->
     <header class="header">
-        <h1 class="logo">FakeStore</h1>
+        <div class="header-inner">
+            <h1 class="logo">
+                <a href="./index.html" class="logo-link">
+                    <span class="logo-mark" aria-hidden="true">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                            <path d="M6 7h12l-1.2 12.2a1 1 0 0 1-1 .8H8.2a1 1 0 0 1-1-.8L6 7z"/>
+                            <path d="M9 7V5.5a3 3 0 0 1 6 0V7"/>
+                        </svg>
+                    </span>
+                    <span class="logo-word">FakeStore</span>
+                </a>
+            </h1>
 
-        <button class="cart-button">
-            <span class="cart-icon">🛒</span>
-            <span>Carrito</span>
-            <span id="cart-count">0</span>
-        </button>
+            <button type="button" class="cart-button" id="open-cart-btn" aria-label="Abrir carrito">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <path d="M6 7h12l-1.2 12.2a1 1 0 0 1-1 .8H8.2a1 1 0 0 1-1-.8L6 7z"/>
+                    <path d="M9 7V5.5a3 3 0 0 1 6 0V7"/>
+                </svg>
+                <span class="cart-label">Carrito</span>
+                <span id="cart-count" class="cart-count">0</span>
+            </button>
+        </div>
     </header>
 
+    <section class="hero">
+        <div class="hero-inner">
+            <p class="hero-kicker">Catálogo en vivo</p>
+            <h2>Encuentra algo que te guste</h2>
+            <p>Busca, compara y arma tu carrito. Es una tienda de práctica: puedes explorar todo sin pagar nada.</p>
+        </div>
+    </section>
 
-    <!-- CONTROLES DE FILTROS -->
-    <section class="controls">
+    <section class="controls" aria-label="Filtros de productos">
         <div class="filters-container">
-            <!-- BUSCADOR -->
-            <input 
-                type="text" 
-                id="search-input"
-                placeholder="Buscar productos..."
-            >
+            <label class="search-field">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                    <circle cx="11" cy="11" r="6.5"/>
+                    <path d="M16 16l4 4"/>
+                </svg>
+                <input
+                    type="search"
+                    id="search-input"
+                    placeholder="Buscar productos..."
+                    aria-label="Buscar productos"
+                    autocomplete="off"
+                    enterkeyhint="search"
+                >
+            </label>
 
-            <!-- FILTRO CATEGORÍA -->
-            <select id="category-filter">
+            <select id="category-filter" aria-label="Filtrar por categoría">
                 <option value="all">Todas las categorías</option>
-                <!-- categorías dinámicas -->
             </select>
 
-            <!-- ORDENAMIENTO -->
-            <select id="sort-filter">
+            <select id="sort-filter" aria-label="Ordenar productos">
                 <option value="default">Ordenar por</option>
                 <option value="price-asc">Precio: menor a mayor</option>
                 <option value="price-desc">Precio: mayor a menor</option>
@@ -48,39 +70,49 @@
                 <option value="name-desc">Nombre Z-A</option>
             </select>
 
-            <!-- BOTONES DE ACCIÓN -->
             <div class="filter-buttons">
-                <button id="apply-filters-btn" class="apply-btn">
-                    Aplicar Filtros
+                <button type="button" id="apply-filters-btn" class="apply-btn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6h16"/><path d="M7 12h10"/><path d="M10 18h4"/></svg>
+                    Aplicar filtros
                 </button>
-                <button id="reset-filters-btn" class="reset-btn">
+                <button type="button" id="reset-filters-btn" class="reset-btn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 1 1-2.2-5.5"/><path d="M20 4v5h-5"/></svg>
                     Reiniciar
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="main-content">
-        <!-- PRODUCTOS -->
-        <section id="products-container" class="products">
-            <!-- Productos renderizados dinámicamente -->
-        </section>
-        <div id="pagination-controls"></div>
+        <div id="api-banner" class="api-banner" hidden></div>
+
+        <div id="status-panel" class="status-panel" role="status">
+            <div class="spinner" aria-hidden="true"></div>
+            <p>Cargando productos…</p>
+        </div>
+
+        <p id="results-info" class="results-info" aria-live="polite"></p>
+        <section id="products-container" class="products" aria-label="Listado de productos"></section>
+        <nav id="pagination-controls" class="pagination" aria-label="Paginación de productos"></nav>
     </main>
 
-    <!-- OVERLAY PARA CARRITO -->
-    <div id="cart-overlay" class="cart-overlay"></div>
+    <footer class="site-footer">
+        <div class="site-footer-inner">
+            <p>FakeStore es una demostración. El catálogo llega de una API pública y finalizar la compra no genera ningún cobro.</p>
+        </div>
+    </footer>
 
-    <!-- CARRITO MODAL -->
-    <aside id="cart" class="cart">
+    <div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
+
+    <aside id="cart" class="cart" inert aria-labelledby="cart-title">
         <div class="cart-header">
-            <h2>Carrito de Compras</h2>
-            <button id="close-cart-btn" class="close-cart-btn" aria-label="Cerrar carrito">✕</button>
+            <h2 id="cart-title">Carrito de compras</h2>
+            <button type="button" id="close-cart-btn" class="close-cart-btn" aria-label="Cerrar carrito">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
         </div>
 
         <div id="cart-items" class="cart-items-container">
-            <!-- Items del carrito -->
         </div>
 
         <div class="cart-footer">
@@ -89,13 +121,23 @@
                 <span id="cart-total">$0.00</span>
             </div>
 
-            <button class="checkout-btn">
+            <button type="button" class="checkout-btn" id="checkout-btn">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 7h12l-1.2 12.2a1 1 0 0 1-1 .8H8.2a1 1 0 0 1-1-.8L6 7z"/><path d="M9 7V5.5a3 3 0 0 1 6 0V7"/></svg>
                 Finalizar compra
             </button>
+
+            <div id="checkout-confirm" class="checkout-confirm" hidden>
+                <p class="checkout-note">Esta compra es una demostración y no genera ningún cobro.</p>
+                <div class="checkout-actions">
+                    <button type="button" id="cancel-checkout-btn" class="reset-btn">Cancelar</button>
+                    <button type="button" id="confirm-checkout-btn" class="checkout-btn">Confirmar</button>
+                </div>
+            </div>
         </div>
     </aside>
 
-    <!-- JS -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
     <script type="module" src="./js/main.js"></script>
 </body>
 </html>

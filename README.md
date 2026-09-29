@@ -5,13 +5,12 @@ Aplicación web moderna que consume datos de la API pública [FakeStore API](htt
 ## 📋 Descripción del Proyecto
 
 Esta aplicación web permite a los usuarios:
-- Explorar productos de una tienda online
+- Explorar productos de una tienda online, con valoración y paginación
 - Buscar productos por nombre o descripción
-- Filtrar productos por categoría
-- Ordenar productos por precio o nombre
-- Agregar productos al carrito de compras
-- Gestionar el carrito (modificar cantidades, eliminar productos)
-- Persistencia del carrito en localStorage
+- Filtrar productos por categoría y ordenarlos por precio o nombre
+- Agregar productos al carrito, cambiar cantidades y eliminarlos
+- Conservar el carrito en localStorage al recargar la página
+- Seguir navegando si FakeStore no responde, mediante un catálogo alternativo
 
 ## 🚀 Características
 
@@ -19,20 +18,22 @@ Esta aplicación web permite a los usuarios:
 
 ✅ **Consumo de API**
 - Obtiene productos desde `https://fakestoreapi.com/products`
-- Manejo de errores y estados de carga
-- Uso de `async/await` para manejo asíncrono
+- Reintenta una vez y, si FakeStore no responde, usa `https://dummyjson.com/products` adaptado al mismo formato
+- Muestra carga, error con botón Reintentar, o un aviso cuando se usa el catálogo alternativo
+- Uso de `async/await` y tiempo máximo de espera de 8 segundos
 
 ✅ **Renderizado Dinámico del DOM**
-- Tarjetas de productos con imagen, título, precio, categoría y descripción
+- Tarjetas con imagen, categoría, título, valoración, descripción, precio y botón
+- Paginación que siempre completa filas según el ancho disponible
 - Construcción dinámica usando `createElement()`
-- Actualización en tiempo real al aplicar filtros
+- Actualización al aplicar filtros, con vuelta automática a la página 1
 
 ✅ **Sistema de Carrito**
-- Agregar productos al carrito
-- Modificar cantidades
-- Eliminar productos
-- Cálculo automático del total
-- Contador de items en el header
+- Agregar productos y abrir el panel lateral
+- Cambiar cantidades con botones − y +, hasta 99 unidades
+- Eliminar productos y ver el total de cada línea
+- Contador en la cabecera
+- Confirmación de compra dentro del panel y aviso flotante al terminar
 
 ✅ **Filtros y Búsqueda**
 - Búsqueda por nombre o descripción con botón "Aplicar Filtros"
@@ -48,17 +49,16 @@ Esta aplicación web permite a los usuarios:
 - Funciones modulares para gestión de storage
 
 ✅ **Diseño Responsivo**
-- Adaptación a escritorio, tablet y móvil
-- Carrito como modal lateral en dispositivos móviles
-- Grid responsive para productos
-- Controles adaptativos
+- La cuadrícula usa un ancho mínimo de tarjeta (`--card-min: 240px`) y la paginación calcula las mismas columnas
+- Filtros en una fila en escritorio, en dos columnas en tablet y apilados en móvil
+- Carrito lateral; en pantallas estrechas ocupa todo el ancho
+- El botón de agregar se acorta cuando la tarjeta es estrecha
 
 ✅ **Experiencia de Usuario**
-- Feedback visual al agregar productos
-- Transiciones suaves
-- Contraste adecuado
-- Tipografía legible
-- Botones accesibles
+- Iconos en línea, entrada animada de las tarjetas y rebote del contador
+- El botón pasa a «Agregado» durante un momento
+- Estados de vacío, carga y error con icono y texto claro
+- Contraste, foco visible y botones con nombre accesible
 
 ## 📁 Estructura del Proyecto
 
@@ -74,8 +74,9 @@ javascript_proyecto_fakestore/
 │
 ├── js/
 │   ├── main.js         # Punto de entrada, configuración de eventos
-│   ├── api.js          # Funciones para consumir la API
-│   ├── products.js     # Renderizado de productos
+│   ├── api.js          # Consumo de FakeStore y catálogo alternativo
+│   ├── icons.js        # Iconos SVG reutilizables
+│   ├── products.js     # Renderizado de productos y paginación
 │   ├── cart.js         # Lógica del carrito de compras
 │   ├── cartView.js     # Vista y renderizado del carrito
 │   ├── filters.js      # Filtros, búsqueda y ordenamiento
@@ -148,10 +149,10 @@ javascript_proyecto_fakestore/
 4. **Ordenar**: Selecciona un criterio de ordenamiento
 5. **Agregar al Carrito**: Click en "Agregar al carrito" en cualquier producto
 6. **Ver Carrito**: Click en el botón "Carrito" del header
-7. **Modificar Carrito**: 
-   - Cambiar cantidad usando el input numérico
-   - Eliminar productos con el botón ✕
-8. **Finalizar Compra**: Click en "Finalizar compra" (simulado)
+7. **Modificar Carrito**:
+   - Subir o bajar la cantidad con los botones − y +
+   - Eliminar productos con el icono de papelera
+8. **Finalizar Compra**: Click en "Finalizar compra" y luego en "Confirmar". Es una compra de demostración: vacía el carrito y muestra un aviso
 
 ### Características del Carrito
 
@@ -160,24 +161,14 @@ javascript_proyecto_fakestore/
 - El contador del header muestra el total de items
 - En móvil, el carrito se abre como modal lateral
 
-## 📸 Capturas de Pantalla
-
-### Vista de Escritorio
-![Vista de productos en escritorio](diseño/capturas/desktop-products.png)
-
-### Vista Móvil
-![Vista móvil con carrito](diseño/capturas/mobile-cart.png)
-
-### Carrito
-![Vista del carrito](diseño/capturas/cart-view.png)
-
 ## 🏗️ Arquitectura del Código
 
 ### Módulos JavaScript
 
 - **main.js**: Orquesta la aplicación, configura eventos globales
-- **api.js**: Abstracción para consumo de API
-- **products.js**: Renderizado de productos en el DOM
+- **api.js**: Petición a FakeStore, reintento y adaptación del catálogo alternativo
+- **icons.js**: Iconos SVG usados por las vistas
+- **products.js**: Renderizado de productos y paginación sincronizada con la cuadrícula
 - **cart.js**: Lógica de negocio del carrito (agregar, eliminar, calcular)
 - **cartView.js**: Renderizado visual del carrito
 - **filters.js**: Lógica de filtrado, búsqueda y ordenamiento
@@ -232,21 +223,21 @@ Ver el archivo [diseño/analisis.md](diseño/analisis.md) para un análisis deta
 
 ## 🔧 Mejoras Futuras
 
-- [ ] Paginación de productos
+- [x] Paginación de productos
 - [ ] Vista detallada de producto
 - [ ] Sistema de favoritos
 - [ ] Historial de compras
 - [ ] Integración con pasarela de pago real
 - [ ] Modo oscuro
-- [ ] Animaciones más avanzadas
 - [ ] Tests unitarios
 
 ## 📝 Notas
 
 - Esta es una aplicación de demostración
-- Los datos provienen de una API pública (FakeStore API)
-- El proceso de "Finalizar compra" es simulado
+- La fuente principal es FakeStore API. Si no responde, se muestra un catálogo alternativo y un aviso para reintentar
+- Finalizar la compra no cobra: vacía el carrito y deja un aviso
 - El carrito persiste solo en el navegador local
+- El análisis de interfaz está en [diseño/analisis.md](diseño/analisis.md) y la lista de comprobación en [VERIFICACION_FINAL.md](VERIFICACION_FINAL.md)
 
 ## 👤 Autor
 
